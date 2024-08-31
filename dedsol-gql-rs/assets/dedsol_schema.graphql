@@ -1,0 +1,576 @@
+"""The root query type which gives access points into the data universe."""
+type Query implements Node {
+  """
+  Exposes the root query type nested one level down. This is helpful for Relay 1
+  which can only query top level fields if they are in a particular form.
+  """
+  query: Query!
+
+  """
+  The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`.
+  """
+  nodeId: ID!
+
+  """Fetches an object given its globally unique `ID`."""
+  node(
+    """The globally unique `ID`."""
+    nodeId: ID!
+  ): Node
+
+  """Reads and enables pagination through a set of `Account`."""
+  accounts(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Account`."""
+    orderBy: [AccountsOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: AccountCondition
+  ): AccountsConnection
+
+  """
+  Reads and enables pagination through a set of `LatestAccountLockersByAccount`.
+  """
+  latestAccountLockersByAccounts(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `LatestAccountLockersByAccount`."""
+    orderBy: [LatestAccountLockersByAccountsOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: LatestAccountLockersByAccountCondition
+  ): LatestAccountLockersByAccountsConnection
+
+  """Reads and enables pagination through a set of `LatestEntityMetadatum`."""
+  latestEntityMetadata(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `LatestEntityMetadatum`."""
+    orderBy: [LatestEntityMetadataOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: LatestEntityMetadatumCondition
+  ): LatestEntityMetadataConnection
+
+  """
+  Reads and enables pagination through a set of `MvLatestAccountLockersByAccount`.
+  """
+  mvLatestAccountLockersByAccounts(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `MvLatestAccountLockersByAccount`."""
+    orderBy: [MvLatestAccountLockersByAccountsOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: MvLatestAccountLockersByAccountCondition
+  ): MvLatestAccountLockersByAccountsConnection
+
+  """
+  Reads and enables pagination through a set of `MvLatestEntityVaultState`.
+  """
+  mvLatestEntityVaultStates(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `MvLatestEntityVaultState`."""
+    orderBy: [MvLatestEntityVaultStatesOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: MvLatestEntityVaultStateCondition
+  ): MvLatestEntityVaultStatesConnection
+}
+
+"""An object with a globally unique `ID`."""
+interface Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+}
+
+"""A connection to a list of `Account` values."""
+type AccountsConnection {
+  """A list of `Account` objects."""
+  nodes: [Account!]!
+
+  """
+  A list of edges which contains the `Account` and cursor to aid in pagination.
+  """
+  edges: [AccountsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Account` you could get from the connection."""
+  totalCount: Int!
+}
+
+type Account {
+  id: BigInt
+  address: String
+  createdAt: Datetime
+
+  """
+  Reads a single `LatestAccountLockersByAccount` that is related to this `Account`.
+  """
+  latestAccountLockers: LatestAccountLockersByAccount
+}
+
+"""
+A signed eight-byte integer. The upper big integer values are greater than the
+max value for a JavaScript number. Therefore all big integers will be output as
+strings and not numbers.
+"""
+scalar BigInt
+
+"""
+A point in time as described by the [ISO
+8601](https://en.wikipedia.org/wiki/ISO_8601) standard. May or may not include a timezone.
+"""
+scalar Datetime
+
+type LatestAccountLockersByAccount {
+  accountEntityId: BigInt
+  accountLockers: [AccountLocker]
+}
+
+type AccountLocker {
+  accountLockerEntityId: BigInt
+  accountLockerEntityAddress: String
+  resourceVaultPairs: [ResourceVaultPair]
+}
+
+type ResourceVaultPair {
+  resourceEntityId: BigInt
+  resourceEntityAddress: String
+  vaultEntityId: BigInt
+  vaultEntityAddress: String
+  vaultBalance: BigFloat
+  resourceMetadata: JSON
+}
+
+"""
+A floating point number that requires more precision than IEEE 754 binary 64
+"""
+scalar BigFloat
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+"""A `Account` edge in the connection."""
+type AccountsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Account` at the end of the edge."""
+  node: Account!
+}
+
+"""A location in a connection that can be used for resuming pagination."""
+scalar Cursor
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: Cursor
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: Cursor
+}
+
+"""Methods to use when ordering `Account`."""
+enum AccountsOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  ADDRESS_ASC
+  ADDRESS_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+}
+
+"""
+A condition to be used against `Account` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input AccountCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: BigInt
+
+  """Checks for equality with the object’s `address` field."""
+  address: String
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+}
+
+"""A connection to a list of `LatestAccountLockersByAccount` values."""
+type LatestAccountLockersByAccountsConnection {
+  """A list of `LatestAccountLockersByAccount` objects."""
+  nodes: [LatestAccountLockersByAccount!]!
+
+  """
+  A list of edges which contains the `LatestAccountLockersByAccount` and cursor to aid in pagination.
+  """
+  edges: [LatestAccountLockersByAccountsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `LatestAccountLockersByAccount` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+"""A `LatestAccountLockersByAccount` edge in the connection."""
+type LatestAccountLockersByAccountsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `LatestAccountLockersByAccount` at the end of the edge."""
+  node: LatestAccountLockersByAccount!
+}
+
+"""Methods to use when ordering `LatestAccountLockersByAccount`."""
+enum LatestAccountLockersByAccountsOrderBy {
+  NATURAL
+  ACCOUNT_ENTITY_ID_ASC
+  ACCOUNT_ENTITY_ID_DESC
+  ACCOUNT_LOCKERS_ASC
+  ACCOUNT_LOCKERS_DESC
+}
+
+"""
+A condition to be used against `LatestAccountLockersByAccount` object types. All
+fields are tested for equality and combined with a logical ‘and.’
+"""
+input LatestAccountLockersByAccountCondition {
+  """Checks for equality with the object’s `accountEntityId` field."""
+  accountEntityId: BigInt
+
+  """Checks for equality with the object’s `accountLockers` field."""
+  accountLockers: [AccountLockerInput]
+}
+
+"""An input for mutations affecting `AccountLocker`"""
+input AccountLockerInput {
+  accountLockerEntityId: BigInt
+  accountLockerEntityAddress: String
+  resourceVaultPairs: [ResourceVaultPairInput]
+}
+
+"""An input for mutations affecting `ResourceVaultPair`"""
+input ResourceVaultPairInput {
+  resourceEntityId: BigInt
+  resourceEntityAddress: String
+  vaultEntityId: BigInt
+  vaultEntityAddress: String
+  vaultBalance: BigFloat
+  resourceMetadata: JSON
+}
+
+"""A connection to a list of `LatestEntityMetadatum` values."""
+type LatestEntityMetadataConnection {
+  """A list of `LatestEntityMetadatum` objects."""
+  nodes: [LatestEntityMetadatum!]!
+
+  """
+  A list of edges which contains the `LatestEntityMetadatum` and cursor to aid in pagination.
+  """
+  edges: [LatestEntityMetadataEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `LatestEntityMetadatum` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+type LatestEntityMetadatum {
+  entityId: BigInt
+  entityAddress: String
+  metadata: JSON
+}
+
+"""A `LatestEntityMetadatum` edge in the connection."""
+type LatestEntityMetadataEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `LatestEntityMetadatum` at the end of the edge."""
+  node: LatestEntityMetadatum!
+}
+
+"""Methods to use when ordering `LatestEntityMetadatum`."""
+enum LatestEntityMetadataOrderBy {
+  NATURAL
+  ENTITY_ID_ASC
+  ENTITY_ID_DESC
+  ENTITY_ADDRESS_ASC
+  ENTITY_ADDRESS_DESC
+  METADATA_ASC
+  METADATA_DESC
+}
+
+"""
+A condition to be used against `LatestEntityMetadatum` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input LatestEntityMetadatumCondition {
+  """Checks for equality with the object’s `entityId` field."""
+  entityId: BigInt
+
+  """Checks for equality with the object’s `entityAddress` field."""
+  entityAddress: String
+
+  """Checks for equality with the object’s `metadata` field."""
+  metadata: JSON
+}
+
+"""A connection to a list of `MvLatestAccountLockersByAccount` values."""
+type MvLatestAccountLockersByAccountsConnection {
+  """A list of `MvLatestAccountLockersByAccount` objects."""
+  nodes: [MvLatestAccountLockersByAccount!]!
+
+  """
+  A list of edges which contains the `MvLatestAccountLockersByAccount` and cursor to aid in pagination.
+  """
+  edges: [MvLatestAccountLockersByAccountsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `MvLatestAccountLockersByAccount` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+type MvLatestAccountLockersByAccount {
+  accountEntityId: BigInt
+  accountLockers: [AccountLocker]
+}
+
+"""A `MvLatestAccountLockersByAccount` edge in the connection."""
+type MvLatestAccountLockersByAccountsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `MvLatestAccountLockersByAccount` at the end of the edge."""
+  node: MvLatestAccountLockersByAccount!
+}
+
+"""Methods to use when ordering `MvLatestAccountLockersByAccount`."""
+enum MvLatestAccountLockersByAccountsOrderBy {
+  NATURAL
+  ACCOUNT_ENTITY_ID_ASC
+  ACCOUNT_ENTITY_ID_DESC
+  ACCOUNT_LOCKERS_ASC
+  ACCOUNT_LOCKERS_DESC
+}
+
+"""
+A condition to be used against `MvLatestAccountLockersByAccount` object types.
+All fields are tested for equality and combined with a logical ‘and.’
+"""
+input MvLatestAccountLockersByAccountCondition {
+  """Checks for equality with the object’s `accountEntityId` field."""
+  accountEntityId: BigInt
+
+  """Checks for equality with the object’s `accountLockers` field."""
+  accountLockers: [AccountLockerInput]
+}
+
+"""A connection to a list of `MvLatestEntityVaultState` values."""
+type MvLatestEntityVaultStatesConnection {
+  """A list of `MvLatestEntityVaultState` objects."""
+  nodes: [MvLatestEntityVaultState!]!
+
+  """
+  A list of edges which contains the `MvLatestEntityVaultState` and cursor to aid in pagination.
+  """
+  edges: [MvLatestEntityVaultStatesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `MvLatestEntityVaultState` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+type MvLatestEntityVaultState {
+  ownerEntityId: BigInt
+  vaultEntityId: BigInt
+  resourceEntityId: BigInt
+  balance: BigFloat
+  isRoyaltyVault: Boolean
+  nonFungibleIds: [BigInt]
+  discriminator: ResourceType
+  fromStateVersion: BigInt
+}
+
+enum ResourceType {
+  FUNGIBLE
+  NON_FUNGIBLE
+}
+
+"""A `MvLatestEntityVaultState` edge in the connection."""
+type MvLatestEntityVaultStatesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `MvLatestEntityVaultState` at the end of the edge."""
+  node: MvLatestEntityVaultState!
+}
+
+"""Methods to use when ordering `MvLatestEntityVaultState`."""
+enum MvLatestEntityVaultStatesOrderBy {
+  NATURAL
+  OWNER_ENTITY_ID_ASC
+  OWNER_ENTITY_ID_DESC
+  VAULT_ENTITY_ID_ASC
+  VAULT_ENTITY_ID_DESC
+  RESOURCE_ENTITY_ID_ASC
+  RESOURCE_ENTITY_ID_DESC
+  BALANCE_ASC
+  BALANCE_DESC
+  IS_ROYALTY_VAULT_ASC
+  IS_ROYALTY_VAULT_DESC
+  NON_FUNGIBLE_IDS_ASC
+  NON_FUNGIBLE_IDS_DESC
+  DISCRIMINATOR_ASC
+  DISCRIMINATOR_DESC
+  FROM_STATE_VERSION_ASC
+  FROM_STATE_VERSION_DESC
+}
+
+"""
+A condition to be used against `MvLatestEntityVaultState` object types. All
+fields are tested for equality and combined with a logical ‘and.’
+"""
+input MvLatestEntityVaultStateCondition {
+  """Checks for equality with the object’s `ownerEntityId` field."""
+  ownerEntityId: BigInt
+
+  """Checks for equality with the object’s `vaultEntityId` field."""
+  vaultEntityId: BigInt
+
+  """Checks for equality with the object’s `resourceEntityId` field."""
+  resourceEntityId: BigInt
+
+  """Checks for equality with the object’s `balance` field."""
+  balance: BigFloat
+
+  """Checks for equality with the object’s `isRoyaltyVault` field."""
+  isRoyaltyVault: Boolean
+
+  """Checks for equality with the object’s `nonFungibleIds` field."""
+  nonFungibleIds: [BigInt]
+
+  """Checks for equality with the object’s `discriminator` field."""
+  discriminator: ResourceType
+
+  """Checks for equality with the object’s `fromStateVersion` field."""
+  fromStateVersion: BigInt
+}
